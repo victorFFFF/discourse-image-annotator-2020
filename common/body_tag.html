@@ -1,4 +1,5 @@
-<script>// modules are defined as an array
+
+<script >// modules are defined as an array
 // [ module function, map of requires ]
 //
 // map of requires is short require name -> numeric require
@@ -235,5 +236,19 @@ $('body').on('click', '.d-editor-preview img:not(.emoji)', function () {
       ctx.stroke();
     }
   }
+  
+
+
+var mark = new markerjs.MarkerArea(document.querySelector('.d-editor-preview img:not(.emoji)'));
+    mark.show(function(dataUrl) {
+      console.log(dataUrl)
+      var res = document.querySelector('.d-editor-preview img:not(.emoji)');
+      res.src = dataUrl;
+    }); 
+
+    document.querySelector(".d-editor-preview img:not(.emoji)").style.backgroundColor = "red";
+    console.log(mark)
+
+
 });
 },{"./js/replaceNthMatch":"js/replaceNthMatch.js"}]},{},["app.js"], null)</script>

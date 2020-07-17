@@ -1,13 +1,18 @@
+ 
+<script src="https://unpkg.com/markerjs"></script>
+
+
 <script type="text/discourse-plugin" version="0.8.18">
   let currentLocale = I18n.currentLocale();
   I18n.translations[currentLocale].js.labofozImageAnnotatorModalTitle = "Image Annotator";
-  I18n.translations[currentLocale].js.labofozImageAnnotatorModalSave = "Save Changes";
+  I18n.translations[currentLocale].js.labofozImageAnnotatorModalSave = "Save";
   
   window.labofoz = window.labofoz || {component: {}}
   window.labofoz.component.imageAnnotator = {
     showModal: require('discourse/lib/show-modal').default,
     editor: require('discourse/components/d-editor').default
   }
+  
 </script>
 
 <script type="text/x-handlebars" data-template-name="modal/labofoz-image-annotator-modal">
@@ -20,4 +25,6 @@
       action=""
       label="labofozImageAnnotatorModalSave"}}
   </div>
+  
 </script>
+
