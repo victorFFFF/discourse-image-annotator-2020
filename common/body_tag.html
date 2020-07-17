@@ -6,6 +6,9 @@
 //
 // anything defined in a previous bundle is accessed via the
 // orig method which is the require for previous bundles
+
+var mark
+
 parcelRequire = (function (modules, cache, entry, globalName) {
   // Save the require from previous bundle to this closure if any
   var previousRequire = typeof parcelRequire === 'function' && parcelRequire;
@@ -204,6 +207,7 @@ $('body').on('click', '.d-editor-preview img:not(.emoji)', function () {
 
     $('#labofoz-image-annotator-save').click(function (ev) {
       $('.modal-close .close').trigger('click');
+      
       $target[0].src = $canvas.toDataURL(); // Find the index of the edited image
 
       $('.d-editor-preview img:not(.emoji)').each(function (n) {
@@ -239,15 +243,48 @@ $('body').on('click', '.d-editor-preview img:not(.emoji)', function () {
   
 
 
-var mark = new markerjs.MarkerArea(document.querySelector('.d-editor-preview img:not(.emoji)'));
-    mark.show(function(dataUrl) {
-      console.log(dataUrl)
-      var res = document.querySelector('.d-editor-preview img:not(.emoji)');
-      res.src = dataUrl;
-    }); 
 
-    document.querySelector(".d-editor-preview img:not(.emoji)").style.backgroundColor = "red";
+//Execute only the first time
+
+                    // mark.close(function(dataUrl) {
+                    //       console.log(dataUrl)
+                    // });
+
+      try{
+            mark.close(function(){
+                console.log("close")
+
+                  });
+         }
+          catch(e)
+              {
+                console.log(e);
+              }
+
+          mark = new markerjs.MarkerArea(document.querySelector('.d-editor-preview img:not(.emoji)'));
+            mark.show(function() {
+              console.log(dataUrl)
+              var res = document.querySelector('.d-editor-preview img:not(.emoji)=');
+              res.src = dataUrl;
+            }); 
+    
     console.log(mark)
+
+    // else{
+     
+    
+    //         mark.cancel(function(dataUrl) {
+    //             console.log(dataUrl)
+    //     });
+
+    //     mark = new markerjs.MarkerArea(document.querySelector('.d-editor-preview img:not(.emoji)'));
+    //         mark.show(function(dataUrl) {
+    //           console.log(dataUrl)
+    //           var res = document.querySelector('.d-editor-preview img:not(.emoji)=');
+    //           res.src = dataUrl;
+    //         }); 
+    // }
+
 
 
 });
