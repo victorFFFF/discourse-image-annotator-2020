@@ -6,7 +6,6 @@
   let currentLocale = I18n.currentLocale();
   I18n.translations[currentLocale].js.labofozImageAnnotatorModalTitle = "Image Annotator";
   I18n.translations[currentLocale].js.labofozImageAnnotatorModalSave = "Save";
-  I18n.translations[currentLocale].js.labofozImageAnnotatorModalSubmit = "123";
   
   
   window.labofoz = window.labofoz || {component: {}}
@@ -18,6 +17,7 @@
 </script>
 
 <script type="text/x-handlebars" data-template-name="modal/labofoz-image-annotator-modal">
+
   {{#d-modal-body title="labofozImageAnnotatorModalTitle" class="labofoz-image-annotator-modal-body"}}
     <canvas class="labofoz-image-annotator-canvas"></canvas>
   {{/d-modal-body}}
@@ -27,7 +27,8 @@
       action=""
       label="labofozImageAnnotatorModalSave"}}
   </div>
-  
+
 </script>
+
 
 

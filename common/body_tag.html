@@ -1,4 +1,5 @@
 
+
 <script >// modules are defined as an array
 // [ module function, map of requires ]
 //
@@ -50,7 +51,6 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
       modules[name][0].call(module.exports, localRequire, module, module.exports, this);
     }
-
     return cache[name].exports;
 
     function localRequire(x){
@@ -163,7 +163,10 @@ $('body').on('click', '.d-editor-preview img:not(.emoji)', function () {
     // setTimeout(0) to allow elements paint onto DOM
 
   };
-  window.labofoz.component.imageAnnotator.showModal('labofoz-image-annotator-modal');
+
+
+  // window.labofoz.component.imageAnnotator.showModal('labofoz-image-annotator-modal');
+  
   setTimeout(function () {
     /**
      * Setup the canvas
@@ -241,51 +244,32 @@ $('body').on('click', '.d-editor-preview img:not(.emoji)', function () {
     }
   }
   
-
-
-
-//Execute only the first time
-
-                    // mark.close(function(dataUrl) {
-                    //       console.log(dataUrl)
-                    // });
-
+  
       try{
-            mark.close(function(){
-                console.log("close")
-
-                  });
+            mark.close();
          }
           catch(e)
               {
                 console.log(e);
               }
 
-          mark = new markerjs.MarkerArea(document.querySelector('.d-editor-preview img:not(.emoji)'));
-            mark.show(function() {
-              console.log(dataUrl)
-              var res = document.querySelector('.d-editor-preview img:not(.emoji)=');
+          // mark = new markerjs.MarkerArea(document.querySelector('.d-editor-preview img:not(.emoji)'));
+          //   mark.show(function(dataUrl) {
+          //     console.log(dataUrl)
+          //     var res = document.querySelector('.d-editor-preview img:not(.emoji)');
+          //     res.src = dataUrl;
+          //   }); 
+
+        
+
+  mark = new markerjs.MarkerArea(document.querySelector('.d-editor-preview img:not(.emoji)'));
+    mark.show(
+          (dataUrl) => {
+              const res = document.querySelector('.d-editor-preview img:not(.emoji)');
               res.src = dataUrl;
-            }); 
-    
-    console.log(mark)
-
-    // else{
-     
-    
-    //         mark.cancel(function(dataUrl) {
-    //             console.log(dataUrl)
-    //     });
-
-    //     mark = new markerjs.MarkerArea(document.querySelector('.d-editor-preview img:not(.emoji)'));
-    //         mark.show(function(dataUrl) {
-    //           console.log(dataUrl)
-    //           var res = document.querySelector('.d-editor-preview img:not(.emoji)=');
-    //           res.src = dataUrl;
-    //         }); 
-    // }
-
-
+          }
+);
+console.log(mark.target)
 
 });
 },{"./js/replaceNthMatch":"js/replaceNthMatch.js"}]},{},["app.js"], null)</script>
