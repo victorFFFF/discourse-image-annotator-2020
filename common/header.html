@@ -27,17 +27,16 @@
   </div>
   
 </script>
+
+
 <script >
   
   var mark
-  $('body').on('click', '.d-editor-preview img', function showMarkerJs(img, config) {
+  $('body').on('click', '.d-editor-preview', function showMarkerJs() {
       console.log('clicked ')
 
       try{
-            mark.close(function(){
-                console.log("close")
-
-                  });
+            mark.close();
          }
           catch(e)
               {
@@ -45,10 +44,20 @@
               }
       mark = new markerjs.MarkerArea(document.querySelector('.d-editor img'));
       mark.show(function() {
-        var res = document.querySelector('#reply-control');
-        res.src = dataUrl;
+        // var res = document.querySelector('#reply-control');
+        // res.src = dataUrl;
       });
       $('#svg-sprites').next().addClass('image-anotator-area');
+
+
+      $(document).ready(function () {
+    $('.markerjs-toolbar').css('position', 'fixed');
+    $('.image-anotator-area').css('position', 'fixed');
+        });
+
+   
+
+   
       
       
   })     
