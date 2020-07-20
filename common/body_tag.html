@@ -1,15 +1,12 @@
+<!-- <script src = "https://unpkg.com/markerjs">// modules are defined as an array
 
 
-<script >// modules are defined as an array
 // [ module function, map of requires ]
-//
+
 // map of requires is short require name -> numeric require
-//
+
 // anything defined in a previous bundle is accessed via the
 // orig method which is the require for previous bundles
-
-var mark
-
 parcelRequire = (function (modules, cache, entry, globalName) {
   // Save the require from previous bundle to this closure if any
   var previousRequire = typeof parcelRequire === 'function' && parcelRequire;
@@ -25,7 +22,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
         if (!jumped && currentRequire) {
           return currentRequire(name, true);
         }
-
+                  
         // If there are other bundles on this page the require from the
         // previous one is saved to 'previousRequire'. Repeat this as
         // many times as there are bundles until the module is found or
@@ -51,6 +48,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
       modules[name][0].call(module.exports, localRequire, module, module.exports, this);
     }
+
     return cache[name].exports;
 
     function localRequire(x){
@@ -146,8 +144,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var replaceNthMatch = require('./js/replaceNthMatch');
 
+
 $('body').on('click', '.d-editor-preview img:not(.emoji)', function () {
   // Don't click on oneboxes
+  
+
   if ($(this).closest('.onebox').length) return false;
   var $target = $(this);
   var isMouseDown = false;
@@ -163,10 +164,14 @@ $('body').on('click', '.d-editor-preview img:not(.emoji)', function () {
     // setTimeout(0) to allow elements paint onto DOM
 
   };
-
-
-  // window.labofoz.component.imageAnnotator.showModal('labofoz-image-annotator-modal');
-  
+  console.log('clicked');
+  window.labofoz.component.imageAnnotator.showModal('labofoz-image-annotator-modal');
+  var mark = new markerjs.MarkerArea(document.querySelector('.d-editor-preview img:not(.emoji)'));
+    mark.show(function(dataUrl) {
+      var res = document.querySelector('.d-editor-preview img:not(.emoji)');
+      res.src = dataUrl;
+    }); 
+  window.labofoz.component.imageAnnotator.showModal('labofoz-image-annotator-modal');
   setTimeout(function () {
     /**
      * Setup the canvas
@@ -201,7 +206,7 @@ $('body').on('click', '.d-editor-preview img:not(.emoji)', function () {
     });
     $('body').mouseup(function () {
       return isMouseDown = false;
-    });
+    }); 
     /**
      * Handle save
      * - Loops through previewer to determine the nth position of this image in the set of $('.d-editor-preview img:not(.emoji)')
@@ -209,15 +214,17 @@ $('body').on('click', '.d-editor-preview img:not(.emoji)', function () {
      */
 
     $('#labofoz-image-annotator-save').click(function (ev) {
-      $('.modal-close .close').trigger('click');
+      console.log("me: " + $target[0] + "  tareget 2" + $target[1]);
       
+      $('.modal-close .close').trigger('click');
       $target[0].src = $canvas.toDataURL(); // Find the index of the edited image
-
+      
       $('.d-editor-preview img:not(.emoji)').each(function (n) {
         if ($target[0] !== this) return; // Find that string in the editor
 
         var $editor = $('#reply-control textarea.d-editor-input').first();
-        var newText = replaceNthMatch($editor.val(), /(!\[.*?\]\()(.+?)(\))/g, n + 1, '**REPLACED**');
+        // var newText = replaceNthMatch($editor.val(), /(!\[.*?\]\()(.+?)(\))/g, n + 1, '**REPLACED**');
+        var newText = replaceNthMatch($editor.val(), /(!\[.*?\]\()(.+?)(\))/g, n + 1, '**Modifited Image**');
         $editor.val(newText);
       });
       return ev.preventDefault();
@@ -243,33 +250,7 @@ $('body').on('click', '.d-editor-preview img:not(.emoji)', function () {
       ctx.stroke();
     }
   }
-  
-  
-      try{
-            mark.close();
-         }
-          catch(e)
-              {
-                console.log(e);
-              }
-
-          // mark = new markerjs.MarkerArea(document.querySelector('.d-editor-preview img:not(.emoji)'));
-          //   mark.show(function(dataUrl) {
-          //     console.log(dataUrl)
-          //     var res = document.querySelector('.d-editor-preview img:not(.emoji)');
-          //     res.src = dataUrl;
-          //   }); 
-
-        
-
-  mark = new markerjs.MarkerArea(document.querySelector('.d-editor-preview img:not(.emoji)'));
-    mark.show(
-          (dataUrl) => {
-              const res = document.querySelector('.d-editor-preview img:not(.emoji)');
-              res.src = dataUrl;
-          }
-);
-console.log(mark.target)
-
 });
-},{"./js/replaceNthMatch":"js/replaceNthMatch.js"}]},{},["app.js"], null)</script>
+ },{"./js/replaceNthMatch":"js/replaceNthMatch.js"}]},{},["app.js"], null)
+
+</script> -->
