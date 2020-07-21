@@ -260,8 +260,9 @@ $('body').on('click', '.d-editor-preview img:not(.emoji)', function () {
 <script >
 
   let mark
-  $('body').on('click', '.resizable', function() {
+  $('body').on('click', '.d-editor-preview img', function() {
 
+    $('.d-editor-preview img').addClass('resizable');    
     showMarkerJs(this);
 
     $('#svg-sprites').next().addClass('image-anotator-area');
