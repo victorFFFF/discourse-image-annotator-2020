@@ -254,3 +254,23 @@ $('body').on('click', '.d-editor-preview img:not(.emoji)', function () {
  },{"./js/replaceNthMatch":"js/replaceNthMatch.js"}]},{},["app.js"], null)
 
 </script> -->
+
+
+
+<script >
+
+  let mark
+  $('body').on('click', '.resizable', function() {
+
+    showMarkerJs(this);
+
+    $('#svg-sprites').next().addClass('image-anotator-area');
+    $(".resizable").attr("crossorigin","anonymous");
+
+      $(document).ready(function () {
+            $('.markerjs-toolbar').css('position', 'fixed');
+            $('.image-anotator-area').css('position', 'fixed');
+        });  
+  })     
+  
+  </script>
