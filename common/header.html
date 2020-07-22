@@ -1,14 +1,35 @@
-<script src="https://unpkg.com/markerjs" data-template-name="modal/labofoz-image-annotator-modal"></script>
+<script src="https://unpkg.com/markerjs"></script>
 
 
-<script>
+
+<!-- <script type="text/discourse-plugin" version="0.8">
+    api.modifyClass("controller:composer", {
+      actions: {
+        typed() {
+          console.log("typed a letter");
+          this.checkReplyLength();
+          this.get("model").typing();
+        }
+      }
+    });
+    </script> -->
+
+
+ <script>
     function showMarkerJs(img, config) {
+
         let mark = new markerjs.MarkerArea(img, config);
+    
         mark.show((dataUrl) => {
+
             img.src = dataUrl;
-        });
+            $('.d-editor-textarea-wrapper textarea').val('![]('+dataUrl+')');
+            console.log(dataUrl)
+
+        });   
     }
-</script>
+</script> 
+
 
 
 

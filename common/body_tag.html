@@ -259,10 +259,15 @@ $('body').on('click', '.d-editor-preview img:not(.emoji)', function () {
 
 <script >
 
+
+
   let mark
   $('body').on('click', '.d-editor-preview img', function() {
 
-    $('.d-editor-preview img').addClass('resizable');    
+    console.log("clicked")
+    
+    $('.d-editor-preview img').addClass('resizable'); 
+    console.log(this)   
     showMarkerJs(this);
 
     $('#svg-sprites').next().addClass('image-anotator-area');
@@ -273,5 +278,7 @@ $('body').on('click', '.d-editor-preview img:not(.emoji)', function () {
             $('.image-anotator-area').css('position', 'fixed');
         });  
   })     
+  
+
   
   </script>
