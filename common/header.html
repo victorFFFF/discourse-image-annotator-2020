@@ -1,36 +1,64 @@
 <script src="https://unpkg.com/markerjs"></script>
 
 
-
-<!-- <script type="text/discourse-plugin" version="0.8">
-    api.modifyClass("controller:composer", {
-      actions: {
-        typed() {
-          console.log("typed a letter");
-          this.checkReplyLength();
-          this.get("model").typing();
-        }
-      }
-    });
-    </script> -->
-
-
+  
  <script>
-    function showMarkerJs(img, config) {
 
-        let mark = new markerjs.MarkerArea(img, config);
-    
-        mark.show((dataUrl) => {
 
-            img.src = dataUrl;
-            $('.d-editor-textarea-wrapper textarea').val('![]('+dataUrl+')');
-            console.log(dataUrl)
+  function showMarkerJs(img, config) {
 
-        });   
-    }
+
+
+      let mark = new markerjs.MarkerArea(img, config);
+        
+ 
+//Makes sure markerjs toolbar is closed after preview topic is closed.
+     function checkOpen(){ 
+        if(!$('.resizable').is(':visible')) {
+        try{
+              clearInterval(timer) 
+              mark.close();
+              console.log("closed")
+              }
+            catch(e)
+            {
+              
+            }
+         }
+     }
+     var timer = setInterval(checkOpen,2000);
+ 
+
+      
+      mark.show((dataUrl) => {
+
+          img.src = dataUrl;
+
+        //remove everything before the ',' in the string
+        // let x = dataUrl
+        // x = x.split(",").pop();
+
+        // const src = x
+        // const byteCharacters = atob(src);
+        // const byteNumbers = new Array(byteCharacters.length);
+
+        // for (let i = 0; i < byteCharacters.length; i++) {
+        //     byteNumbers[i] = byteCharacters.charCodeAt(i);
+        // }
+
+        // const byteArray = new Uint8Array(byteNumbers);
+        // const blob = new Blob([byteArray], {type: 'image/png'});
+        // var imageUrl = URL.createObjectURL(blob);
+        // document.querySelector(".resizable").src = imageUrl;
+  
+        
+          $('.d-editor-textarea-wrapper textarea').val('![]('+dataUrl+')');
+         
+      });   
+  }
+
+
+
 </script> 
 
 
-
-
-  
