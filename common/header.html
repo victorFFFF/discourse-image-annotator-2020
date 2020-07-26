@@ -4,15 +4,13 @@
   
  <script>
 
-
-  function showMarkerJs(img, config) {
-
-      let mark = new markerjs.MarkerArea(img, config);
+  function showMarkerJs(img) {
       
-
+      let mark = new markerjs.MarkerArea(img);
+    
       //Makes sure markerjs toolbar is closed after preview topic is closed.
           function checkOpen(){ 
-              if(!$('.resizable').is(':visible')) {
+              if(!$(img).is(':visible')) {
               try{
                     clearInterval(timer) 
                     mark.close();
@@ -26,12 +24,14 @@
           let timer = setInterval(checkOpen,1900);
 
           disableScroll();
+
             mark.show((dataUrl) => {
                 img.src = dataUrl;
+
                 // $('.d-editor-textarea-wrapper textarea').val('![]('+dataUrl+')');
             });   
 
-
+           return img;
   }
 
 
