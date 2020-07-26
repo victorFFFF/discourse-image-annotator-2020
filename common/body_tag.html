@@ -3,83 +3,80 @@
 
 <script >
 
-  // //Remove the duplicate markerjs
-  function removeDuplicates(){
-    try{
-            let toolbar = document.querySelector('.markerjs-toolbar');
-            toolbar.parentNode.removeChild(toolbar);
-            let display = document.querySelector('.image-anotator-area')
-            display.parentNode.removeChild(display)
-            let logo = document.querySelector('.markerjs-logo')
-            logo.parentNode.removeChild(logo)
+        // //Remove the duplicate markerjs
+      function removeDuplicates(){
+                    try{
+                          let toolbar = document.querySelector('.markerjs-toolbar');
+                          toolbar.parentNode.removeChild(toolbar);
+                          let display = document.querySelector('.image-anotator-area')
+                          display.parentNode.removeChild(display)
+                          let logo = document.querySelector('.markerjs-logo')
+                          logo.parentNode.removeChild(logo)
+                        }
+                        catch(e)
+                        {/* Do nothing*/}
         }
-        catch(e)
-        {/* Do nothing*/}
-  }
 
-function disableScroll() { 
-    // Get the current page scroll position 
-    scrollTop = window.pageYOffset || document.documentElement.scrollTop; 
-    scrollLeft = window.pageXOffset || document.documentElement.scrollLeft, 
-  
-        // if any scroll is attempted, set this to the previous value 
-        window.onscroll = function() { 
-            window.scrollTo(scrollLeft, scrollTop); 
-        }; 
-} 
-  
-function enableScroll() { 
-    window.onscroll = function() {}; 
-} 
+
+      function disableScroll() { 
+                    // Get the current page scroll position 
+                    scrollTop = window.pageYOffset || document.documentElement.scrollTop; 
+                    scrollLeft = window.pageXOffset || document.documentElement.scrollLeft, 
+                  
+                        // if any scroll is attempted, set this to the previous value 
+                        window.onscroll = function() { 
+                            window.scrollTo(scrollLeft, scrollTop); 
+                        }; 
+            } 
+        
+
+      function enableScroll() { 
+                    window.onscroll = function() {}; 
+      } 
+
+
+
 
 
   $('body').on('click', '.d-editor-preview img', function() {
 
     console.log("clicked")
-    
     removeDuplicates();
-   
-    showMarkerJs(this);
+    let theMarker =  showMarkerJs(this);
+    console.log(theMarker)
 
             //Check for change in height
             var currentHeight = $("#reply-control");
             var lastHeight = $("#reply-control").css('height');
             function checkForChanges()
             {
-              try{
-                  if (currentHeight.css('height') != lastHeight)
-                  {
-                      console.log('changed');
-                      lastHeight = currentHeight.css('height'); 
-                      removeDuplicates();
-                      showMarkerJs(document.querySelector('.resizable'))
-                      $('#svg-sprites').next().addClass('image-anotator-area');
-                  }
-                  if(!$('.markerjs-toolbar').is(':visible')){
-                    clearInterval(timer)
-                    enableScroll();
-                  }
-              }
-              catch(e)
-              {/*Do nothing*/}
-              console.log("Tracking height")
+                    try{
+                        if (currentHeight.css('height') != lastHeight)
+                        {
+                            console.log('changed');
+                            lastHeight = currentHeight.css('height'); 
+                            removeDuplicates();
+                            showMarkerJs(theMarker)
+                            $('#svg-sprites').next().addClass('image-anotator-area');
+                        }
+                        if(!$('.markerjs-toolbar').is(':visible')){
+                          clearInterval(timer)
+                          enableScroll();
+                        }
+                    }
+                    catch(e)
+                    {/*Do nothing*/}
+                    console.log("Tracking height")
             }
             let timer = setInterval(checkForChanges, 470);
-
 
       $(document).ready(function () {
             $('#svg-sprites').next().addClass('image-anotator-area');
             $(".resizable").attr("crossorigin","anonymous");
             $('.d-editor-preview img').addClass('resizable'); 
+            $('#reply-control').css('height','70%');
             // $('.markerjs-toolbar').css('position', 'fixed');
           
         }); 
-
-   
-  }
-  )    
-  
-
-
-  
+  })    
   </script>
