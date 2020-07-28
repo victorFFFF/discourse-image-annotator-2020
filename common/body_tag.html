@@ -30,13 +30,15 @@
       } 
 
 
-
-      // $(window).on('load', function() {
-      //   $('#reply-control').css('height','80%');
-      // });
-
 //Exec when image is clicked
   $('body').on('click', '.d-editor-preview img', function() {
+
+//Center image when clicked
+    this.scrollIntoView({
+            behavior: 'auto',
+            block: 'center',
+            inline: 'center'
+        });
 
       removeDuplicates();
       let theMarker =  showMarkerJs(this);
