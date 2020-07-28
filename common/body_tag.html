@@ -44,36 +44,40 @@
     removeDuplicates();
     let theMarker =  showMarkerJs(this);
     console.log(theMarker)
+      
 
             //Check for change in height
             var currentHeight = $("#reply-control");
             var lastHeight = $("#reply-control").css('height');
             function checkForChanges()
             {
+              console.log(theMarker)
                     try{
+                         // Check for height difference
                         if (currentHeight.css('height') != lastHeight)
                         {
-                            console.log('changed');
+                            console.log('Height changed!!!');
                             lastHeight = currentHeight.css('height'); 
                             removeDuplicates();
-                            showMarkerJs(theMarker)
+                            theMarker = showMarkerJs(theMarker.img,theMarker.previousState)
                             $('#svg-sprites').next().addClass('image-anotator-area');
                         }
+                        // Toolbar is open then exec code
                         if(!$('.markerjs-toolbar').is(':visible')){
                           clearInterval(timer)
                           enableScroll();
                         }
                     }
                     catch(e)
-                    {/*Do nothing*/}
+                    {/*Do nothing*/console.log(e)}
                     console.log("Tracking height")
             }
-            let timer = setInterval(checkForChanges, 470);
+            let timer = setInterval(checkForChanges, 500);
 
       $(document).ready(function () {
             $('#svg-sprites').next().addClass('image-anotator-area');
-            $(".resizable").attr("crossorigin","anonymous");
             $('.d-editor-preview img').addClass('resizable'); 
+            $(".resizable").attr("crossorigin","anonymous");
             $('#reply-control').css('height','70%');
             // $('.markerjs-toolbar').css('position', 'fixed');
           
