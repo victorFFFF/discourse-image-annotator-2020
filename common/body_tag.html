@@ -30,15 +30,20 @@
       } 
 
 
+
+      $(window).on('load', function() {
+                    $('#reply-control').css('height','70%');  
+      });
+
 //Exec when image is clicked
   $('body').on('click', '.d-editor-preview img', function() {
 
-//Center image when clicked
-    this.scrollIntoView({
-            behavior: 'auto',
-            block: 'center',
-            inline: 'center'
-        });
+      //Center image when clicked
+      this.scrollIntoView({
+              behavior: 'auto',
+              block: 'center',
+              inline: 'center'
+          });
 
       removeDuplicates();
       let theMarker =  showMarkerJs(this);
@@ -53,7 +58,7 @@
                         {
                             console.log('Height changed!!!');
                             lastHeight = currentHeight.css('height'); 
-                            removeDuplicates();
+                            theMarker.mark.close();
                             theMarker = showMarkerJs(theMarker.img,theMarker.previousState)
                             $('#svg-sprites').next().addClass('image-anotator-area');
                         }
