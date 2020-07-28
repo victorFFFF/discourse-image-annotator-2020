@@ -40,20 +40,15 @@
 
   $('body').on('click', '.d-editor-preview img', function() {
 
-    console.log("clicked")
     removeDuplicates();
     let theMarker =  showMarkerJs(this);
-    console.log(theMarker)
-      
 
             //Check for change in height
             var currentHeight = $("#reply-control");
             var lastHeight = $("#reply-control").css('height');
             function checkForChanges()
             {
-              console.log(theMarker)
                     try{
-                         // Check for height difference
                         if (currentHeight.css('height') != lastHeight)
                         {
                             console.log('Height changed!!!');
@@ -62,7 +57,7 @@
                             theMarker = showMarkerJs(theMarker.img,theMarker.previousState)
                             $('#svg-sprites').next().addClass('image-anotator-area');
                         }
-                        // Toolbar is open then exec code
+                        // Exec code if toolbar is open
                         if(!$('.markerjs-toolbar').is(':visible')){
                           clearInterval(timer)
                           enableScroll();

@@ -2,16 +2,14 @@
 <script src="https://unpkg.com/markerjs"></script>
 
 
-
-  
  <script>
 
-let previousState
+  let previousState
+
   function showMarkerJs(img, config) {
-      
-      let mark = new markerjs.MarkerArea(img, {previousState: config});
-  
     
+      let mark = new markerjs.MarkerArea(img, {previousState: config});
+      
       //Makes sure markerjs toolbar is closed after preview topic is closed.
           function checkOpen(){ 
               if(!$(img).is(':visible')) {
@@ -30,8 +28,7 @@ let previousState
           disableScroll();
 
             mark.show((dataUrl, ) => {
-                img.src = dataUrl;
-                
+                img.src = dataUrl;                
                 // $('.d-editor-textarea-wrapper textarea').val('![]('+dataUrl+')');
             });   
 
@@ -40,13 +37,13 @@ let previousState
                 previousState: mark.getState()
             }
 
-            $('.markerjs-toolbar').on("click", function(){
-              console.log("toolbar clicked")
-            newObj.img = img
-            newObj.previousState = mark.getState();
-            console.log("saving previous state")
-            return newObj
-          })
+            //Save state
+            $('svg').on("click", function(){
+                newObj.img = img
+                newObj.previousState = mark.getState();
+                console.log("Saving previous state")
+                return newObj
+              })
 
            return newObj
   }
