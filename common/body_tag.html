@@ -30,13 +30,15 @@
       } 
 
 
-
-      // $(window).on('load', function() {
-      //   $('#reply-control').css('height','80%');
-      // });
-
 //Exec when image is clicked
   $('body').on('click', '.d-editor-preview img', function() {
+
+//Center image when clicked
+    this.scrollIntoView({
+            behavior: 'auto',
+            block: 'center',
+            inline: 'center'
+        });
 
       removeDuplicates();
       let theMarker =  showMarkerJs(this);
@@ -55,7 +57,7 @@
                             theMarker = showMarkerJs(theMarker.img,theMarker.previousState)
                             $('#svg-sprites').next().addClass('image-anotator-area');
                         }
-                        // Exec code if toolbar is open
+                        // Exec code if toolbar is not open
                         if(!$('.markerjs-toolbar').is(':visible')){
                             clearInterval(timer)
                             enableScroll();
