@@ -10,7 +10,7 @@ src = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js">
     function saveState(newObj, image, mark){
                 newObj.img = image
                             newObj.previousState = mark.getState();
-                            console.log("Saving previous state")
+                            console.log("Saving state")
                             return newObj
     }
 
@@ -28,7 +28,7 @@ src = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js">
 
                 //Makes sure markerjs toolbar is closed after preview topic is closed.
                 function checkOpen(){ 
-                        console.log("marker is opened")
+                        console.log("Marker is opened!")
                       if(!$(img).is(':visible')) {
                       try{
                           clearInterval(timer) 
@@ -39,7 +39,7 @@ src = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js">
                           {/*Do nothing*/}
                           }
                       } 
-                let timer = setInterval(checkOpen,1000);
+                let timer = setInterval(checkOpen,300);
 
                   
                 newObj = {

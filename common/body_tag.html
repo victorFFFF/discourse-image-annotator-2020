@@ -53,7 +53,7 @@
             $('#reply-control').resize(function()
             {
                     try{
-                            console.log('Height changed!!!');
+                            console.log('Height changed');
                             theMarker.mark.close();
                             theMarker = showMarkerJs(theMarker.img,theMarker.previousState)
                             $('#svg-sprites').next().addClass('image-anotator-area');
@@ -64,7 +64,7 @@
 
             //Enable scroll if toolbar is closed
             function reenableScroll(){
-              console.log("Tracking toolbar.")
+              console.log("Tracking toolbar")
               if(!$('.markerjs-toolbar').is(':visible')){
                             enableScroll();
                             $(".d-editor-preview-wrapper ").css("overflow","auto");
