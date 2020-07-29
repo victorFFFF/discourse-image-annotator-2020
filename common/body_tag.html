@@ -22,8 +22,11 @@
                   
                         // if any scroll is attempted, set this to the previous value 
                         window.onscroll = function() { 
+                            $(".markerjs-toolbar").effect( "shake", {times:1}, 100 );
+                              console.log("attempted to scroll")
                               window.scrollTo(scrollLeft, scrollTop); 
                             }; 
+                            
       } 
       function enableScroll() { 
                     window.onscroll = function() {}; 
@@ -48,7 +51,6 @@
       removeDuplicates();
       let theMarker =  showMarkerJs(this);
 
-
             // Watch for height changes 
             $('#reply-control').resize(function()
             {
@@ -57,7 +59,6 @@
                             theMarker.mark.close();
                             theMarker = showMarkerJs(theMarker.img,theMarker.previousState)
                             $('#svg-sprites').next().addClass('image-anotator-area');
-                        // Exec code if toolbar is not open
                     }
                     catch(e)
                     {/*Do nothing*/}
@@ -71,8 +72,6 @@
                         }
             }
             let timer = setInterval(enableScrollAgain,500);
-          
- 
 
       $(document).ready(function () {
             $('#svg-sprites').next().addClass('image-anotator-area');
