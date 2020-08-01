@@ -1,60 +1,125 @@
-
 <script src="https://unpkg.com/markerjs"></script>
 
- <script>
+
+<script>
+
 //Save unsaved marker state before reopening when resizing reply-control
-        function saveState(newObj, image, mark){
-                    newObj.img = image
-                    newObj.previousState = mark.getState();
-                    console.log("Saving state")
-                    return newObj
-    }
-
-// Display Markerjs
-        let previousState
-        function showMarkerJs(img, config) {
-                    let mark = new markerjs.MarkerArea(img, {previousState: config});
-                    
-                    //Exec after marker's toolbar checkmark is clicked
-                    mark.show((dataUrl) => {
-                            img.src = dataUrl;                
-                        });  
-
-                    //Makes sure markerjs toolbar is closed after preview topic is closed.
-                    function checkOpen(){ 
-                            if(!$(img).is(':visible')) {
-                            try{
-                                clearInterval(timer) 
-                                mark.close();
-                                console.log("image closed")
-                                }
-                            catch(e)
-                                {/*Do nothing*/}
-                                }
-                                console.log("Tracking image")
-                            } 
-                    let timer = setInterval(checkOpen,3000);
-                    
-                    newObj = {
-                                img,
-                                previousState: mark.getState(),
-                                mark
-                            }
-                    
-                    //Hide composer scrolling temporarily
-                    $(".d-editor-preview-wrapper ").css("overflow","hidden");
-                
-                    //Save state when toolbar clicked
-                    $('.markerjs-toolbar').on("click", function(){
-                        return saveState(newObj, img, mark)
-                        })
-                    //Save state when annotation changes
-                    $('svg').on("click", function(){
-                        return saveState(newObj, img, mark)
-                        })
-                        
-                        return newObj
+       function saveState(newObj, image, mark){
+                   newObj.img = image
+                   newObj.previousState = mark.getState();
+                   return newObj
         }
+
+        function findAllIndexes(string,word){
+                    let result = [];
+                    let dif = 0;
+                    while(true){
+                    let index = string.indexOf(word);
+                    if(index === -1) break;
+                    else{
+                        result.push(index + dif);
+                        let cur = string.length;
+                        string = string.substring(index + word.length);
+                        dif += cur - string.length;
+                    }
+                    }
+                    return result;
+        }
+  
+// Display Markerjs
+            let previousState
+       function showMarkerJs(img, config) {
+
+            let mark = new markerjs.MarkerArea(img, {previousState: config, renderImageType: 'image/jpeg'});
+            let $editor = $('#reply-control textarea.d-editor-input').first()[0].value;
+            let $editorVal = $('#reply-control textarea.d-editor-input');
+            let result = findAllIndexes($editor,"upload://");
+            let images = $('.d-editor-preview img');
+
+
+            //Exec after marker's toolbar checkmark is clicked
+            mark.show((dataUrl) => {
+                    // generating image src into blob url
+                    let base64code = dataUrl;
+                    base64code = base64code.split(',').pop();
+
+                    const src = base64code;
+                    const byteChar = atob(src)
+                    const byteNum = new Array(byteChar.length);
+
+                    for (let i = 0; i < byteChar.length; i++){
+                        byteNum[i] = byteChar.charCodeAt(i);
+                    }
+                    const byteArr = new Uint8Array(byteNum);
+                    const blob = new Blob([byteArr], {type: 'img/png'});
+
+
+                    // upload
+                    const data = new FormData();
+                    data.append('authenticity_token', $('meta[name="csrf-token"]').attr('content'))
+                    data.append('file', blob, 'png');
+                    data.append('type', "composer");
+
+                    fetch(Discourse.getURL("/uploads.json"), {
+                        method: 'POST',
+                        body: data
+                    }).then(response => response.json()).then(upload=> {
+                        
+                        //Get the new url
+                        const newImgUrl = upload.short_url.substring(0,upload.short_url.length-4);
+                        
+                        let str;
+                        for(let i = 0; i < images.length; i++){
+                            if(images[i] === img){ 
+                            console.log(result[i])                    
+                            str = $editor.substring(result[i],result[i]+36);
+                            console.log('str ',str)
+                            break;
+                            }
+                        }
+                        //Replace old url and textarea with update ones
+                        let newText;
+                        Discourse.appEvents.trigger(
+                            "composer:insert-text",
+                            "\n",
+                            newText = $editor.replace(str,newImgUrl),
+                            $editorVal.val(newText)
+                            );
+              });
+        
+                });  
+
+                   //Makes sure markerjs toolbar is closed after preview topic is closed.
+                   function checkOpen(){ 
+                           if(!$(img).is(':visible')) {
+                           try{
+                               clearInterval(timer) 
+                               mark.close();
+                               }
+                           catch(e)
+                               {/*Do nothing*/}
+                               }
+                           } 
+                   let timer = setInterval(checkOpen,3000);
+                   
+                   newObj = {
+                               img,
+                               previousState: mark.getState(),
+                               mark
+                           }
+                   
+                   //Hide composer scrolling temporarily
+                   $(".d-editor-preview-wrapper ").css("overflow","hidden");
+               
+                   //Save state when toolbar clicked
+                   $('.markerjs-toolbar').on("click", function(){
+                       return saveState(newObj, img, mark)
+                       })
+                   //Save state when annotation changes
+                   $('svg').on("click", function(){
+                       return saveState(newObj, img, mark)
+                       })
+                       
+                       return newObj
+       }
 </script> 
-
-
