@@ -28,6 +28,7 @@
   
 // Display Markerjs
             let previousState
+
        function showMarkerJs(img, config) {
 
             let mark = new markerjs.MarkerArea(img, {previousState: config, renderImageType: 'image/jpeg'});
@@ -39,6 +40,7 @@
 
             //Exec after marker's toolbar checkmark is clicked
             mark.show((dataUrl) => {
+                  
                     // generating image src into blob url
                     let base64code = dataUrl;
                     base64code = base64code.split(',').pop();
@@ -69,19 +71,25 @@
                         const newImgUrl = upload.short_url.substring(0,upload.short_url.length-4);
                         
                         let str;
+                    
                         for(let i = 0; i < images.length; i++){
-                            if(images[i] === img){ 
-                            console.log(result[i])                    
-                            str = $editor.substring(result[i],result[i]+36);
-                            console.log('str ',str)
+                            if(images[i] === img){                   
+
+                            if($editor.charAt(result[i]+36) != '.')    
+                                str = $editor.substring(result[i],result[i]+36);
+                            else
+                                str = $editor.substring(result[i], result[i]+37)
+                            console.log($editor.charAt(result[i]+36))
+                            console.log('old image: ',str)
                             break;
                             }
                         }
+                        console.log("new image: " + newImgUrl)
                         //Replace old url and textarea with update ones
                         let newText;
                         Discourse.appEvents.trigger(
                             "composer:insert-text",
-                            "\n",
+                            "",
                             newText = $editor.replace(str,newImgUrl),
                             $editorVal.val(newText)
                             );
