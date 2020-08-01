@@ -10,32 +10,27 @@
                    return newObj
         }
 
-        function findAllIndexes(string,word,images){
+        function findAllIndexes(string,word){
                     let result = [];
                     let dif = 0;
                     let i = 0;
-                    let wordIndex = 0;
                    
-
                     while(true){
                         let index = string.indexOf(word[i]);
                        
                     if(word.length > 1)
                     {
-                    let i
-                    let theList = new Array(4)
+                        let i
+                        let theList = new Array(4)
                     for(i = 0; i < 4 ; i++)
                         theList[i] = string.indexOf(word[i])
 
                         if(theList[0] == -1 && theList[1] == -1 && theList[2] == -1 && theList[3] == -1)
-                        {
                             index = -1
-                            }
+                            
+                            // Find minimum number in array
                             else{
-                                console.log(theList[0],theList[1],theList[2],theList[3])
                                 let newArray = theList.filter( x => x > -1)
-                                console.log(newArray)
-                                console.log(Math.min(...newArray))
                                 index = Math.min(...newArray)
                                 }
                             }
@@ -52,22 +47,17 @@
   
 // Display Markerjs
             let previousState
-
        function showMarkerJs(img, config) {
-
             let mark = new markerjs.MarkerArea(img, {previousState: config, renderImageType: 'image/jpeg'});
             let $editor = $('#reply-control textarea.d-editor-input').first()[0].value;
             let $editorVal = $('#reply-control textarea.d-editor-input');
             let images = $('.d-editor-preview img');
-            console.log("length " + images.length)
             let options = ["]("]
             let options2 = ['jpg', 'png', 'gif','jpeg']
-            let result = findAllIndexes($editor,options,images);
-            let endpoints = findAllIndexes($editor, options2,images)
+            let result = findAllIndexes($editor,options);
+            let endpoints = findAllIndexes($editor, options2)
             console.log("begin: " + result)
             console.log("end: " + endpoints)
-
-
 
             //Exec after marker's toolbar checkmark is clicked
             mark.show((dataUrl) => {
@@ -150,8 +140,7 @@
                    //Save state when annotation changes
                    $('svg').on("click", function(){
                        return saveState(newObj, img, mark)
-                       })
-                       
+                       })                       
                        return newObj
        }
 </script> 
