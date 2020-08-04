@@ -81,7 +81,6 @@
                     data.append('authenticity_token', $('meta[name="csrf-token"]').attr('content'))
                     data.append('file', blob, 'png');
                     data.append('type', "composer");
-                    data.append('Access-Control-Allow-Credentials', 'true');
 
                     fetch(Discourse.getURL("/uploads.json"), {
                         method: 'POST',
