@@ -15,10 +15,6 @@
             {/* Do nothing*/}
       }
 
-      window.onload = function WindowLoad(event) {
-        $('#reply-control').css('height','80%');
-}
-
 
 //Exec when image is clicked
 $('body').on('click', '.d-editor-preview img', function() {
@@ -67,7 +63,7 @@ $('body').on('click', '.d-editor-preview img', function() {
               $('#svg-sprites').next().addClass('image-anotator-area');
               $('.d-editor-preview img').addClass('resizable'); 
               $(".resizable").attr("crossorigin","anonymous");
-              // $('#reply-control').css('height','80%');
+              $('#reply-control').css('height','80%');
         }); 
 })    
 </script>
