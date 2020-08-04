@@ -129,7 +129,7 @@
                         
                         Discourse.appEvents.trigger(
                             "composer:insert-text",
-                            "",                     
+                            "",                      
                             );
                         setTimeout(function(){
                             Discourse.appEvents.trigger(
@@ -138,13 +138,10 @@
                             newText = $editor.replace(str,newImgUrl),
                             $editorVal.val(newText)                       
                             );
-                            }, 1500)
-
-                        //Replace old url and textarea with update ones
-                 
-
+                            }, 2000)
                      });
 
+        
                 });  
 
                    //Makes sure markerjs toolbar is closed after preview topic is closed.
