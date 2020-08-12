@@ -3,9 +3,7 @@
 
 <script>
  
-//Save unsaved marker state before reopening when resizing reply-control
-
-function getURL(url) {
+ function getURL(url) {
          let baseUri
         if (!url) return url;
       
@@ -24,6 +22,7 @@ function getURL(url) {
         return baseUri + url;
       }
 
+//Save unsaved marker state before reopening when resizing reply-control
        function saveState(newObj, image, mark){
                    newObj.img = image
                    newObj.previousState = mark.getState();
@@ -65,7 +64,7 @@ function getURL(url) {
 
             //Exec after marker's toolbar checkmark is clicked
             mark.show((dataUrl) => {
-
+             
                 //Remove extra ) 
                 if(afterBegin.length != endpoints.length)
                 {
@@ -96,7 +95,7 @@ function getURL(url) {
                         byteNum[i] = byteChar.charCodeAt(i);
                     }
                     const byteArr = new Uint8Array(byteNum);
-                    const blob = new Blob([byteArr], {type: 'img/png'});
+                    const blob = new Blob([byteArr], {type: 'image/png'});
 
                     // upload
                     const data = new FormData();
@@ -125,7 +124,7 @@ function getURL(url) {
                         Discourse.appEvents.trigger(
                             "composer:insert-text",
                             "",                      
-                            );
+                            ); 
                         setTimeout(function(){
                             Discourse.appEvents.trigger(
                             "composer:insert-text",
@@ -171,8 +170,7 @@ function getURL(url) {
                        return newObj
        }
        try{
-       header("Content-Security-Policy: default-src *; style-src 'self' 'unsafe-inline'; font-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'https://unpkg.com/markerjs@1.8.1/markerjs.umd.js"); 
-       }
-       catch(e)
-       {/*DO NOTHING*/} 
+            header("Content-Security-Policy: default-src *; img-src * 'self' data: https:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com/markerjs@1.8.1/markerjs.umd.js");
+       }  
+       catch(e){/*Do nothing*/}
 </script> 

@@ -1,11 +1,10 @@
-
 <script >
 
   // Remove the duplicate markerjs
     function removeDuplicates(){
         try{
             let toolbar = document.querySelector('.markerjs-toolbar');
-            toolbar.parentNode.removeChild(toolbar);          
+            toolbar.parentNode.removeChild(toolbar);
             let display = document.querySelector('.image-anotator-area')
             display.parentNode.removeChild(display)
             let logo = document.querySelector('.markerjs-logo')
@@ -14,11 +13,10 @@
         catch(e)
             {/* Do nothing*/}
       }
-
+      
 
 //Exec when image is clicked
 $('body').on('click', '.d-editor-preview img', function() {
-      
       //Center image when clicked
       this.scrollIntoView({
               behavior: 'auto',
@@ -35,7 +33,8 @@ $('body').on('click', '.d-editor-preview img', function() {
             try{
                 theMarker.mark.close();
                 theMarker = showMarkerJs(theMarker.img,theMarker.previousState)
-                $('.markerjs-logo').prev().addClass('image-anotator-area');   
+              
+                $('.markerjs-logo').prev().addClass('image-anotator-area');
                 $('[title=Close] svg').attr('fill','red');
                 $('[title=Delete] svg').attr('fill','	darkred');
                 $('[title=OK] svg').attr('fill','green');
@@ -54,7 +53,6 @@ $('body').on('click', '.d-editor-preview img', function() {
             catch(e)
             {/*Do nothing*/}
         }
-         
 
       //Enable composer scroll if toolbar is closed
       function reenableScroll(){
@@ -66,7 +64,7 @@ $('body').on('click', '.d-editor-preview img', function() {
       let timer = setInterval(reenableScroll,700);
 
       $(document).ready(function () {
-        $('.markerjs-logo').prev().addClass('image-anotator-area');    
+              $('.markerjs-logo').prev().addClass('image-anotator-area');
               $('.d-editor-preview img').addClass('resizable'); 
               $(".resizable").attr("crossorigin","anonymous");
               $('#reply-control').css('height','80%');
@@ -76,7 +74,29 @@ $('body').on('click', '.d-editor-preview img', function() {
               $('[title=Cover]:last svg').attr('fill','yellow');
               $('[title=Pointer]').remove();
 
-              
+              $(".image-anotator-area").attr("crossorigin","anonymous");
+              let tempSrcs = [];
+                for(let i = 0; i < $('img.resizable').length; i++){
+                  tempSrcs[i] = $('img.resizable')[i].src;
+                }
+                $('.resizable').removeAttr('src');
+                for(let i = 0; i < $('img.resizable').length; i++){
+                  $('img.resizable')[i].src = tempSrcs[i];      
+                }   
+                let tempAlt = $('.resizable').attr('alt');
+                $('.resizable').removeAttr('alt');
+                let tempWidth = $('.resizable').attr('width');
+                $('.resizable').removeAttr('width');
+                let tempHeight = $('.resizable').attr('height');
+                $('.resizable').removeAttr('height');
+                let tempClass = $('.resizable').attr('class');
+                $( "img.resizable" ).attr('class',tempClass);
+                $( "img.resizable" ).attr('alt',tempAlt);
+                $( "img.resizable" ).attr('width',tempWidth);
+                $( "img.resizable" ).attr('height',tempHeight);
+                $('.resizable').attr('class',tempClass);
+
         }); 
+
 })    
 </script>
