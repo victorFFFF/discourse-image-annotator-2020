@@ -38,7 +38,6 @@
             logo.parentNode.removeChild(logo);
         } catch (e) {
             /* Do nothing*/
-
         }
     }
 
@@ -64,7 +63,6 @@
     // MarkerJs functions
     let mark;
     let previousState;
-
 
     function showMarkerJs(img, config) {
         mark = new markerjs.MarkerArea(img, { previousState: config });
@@ -168,7 +166,6 @@
                     /*Do nothing*/
                 }
             }
-
         }
         let timer = setInterval(checkOpen, 3000);
 
@@ -281,7 +278,6 @@
                 $(".d-editor-preview img")[i].height = tempHeight[i];
             }
             $("img.resizable").attr("alt", tempAlt);
-
         });
     });
 </script>
