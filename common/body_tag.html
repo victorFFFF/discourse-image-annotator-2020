@@ -38,6 +38,7 @@
             logo.parentNode.removeChild(logo);
         } catch (e) {
             /* Do nothing*/
+
         }
     }
 
@@ -56,12 +57,14 @@
                 dif += cur - string.length;
             }
         }
+
         return result;
     }
 
     // MarkerJs functions
     let mark;
     let previousState;
+
 
     function showMarkerJs(img, config) {
         mark = new markerjs.MarkerArea(img, { previousState: config });
@@ -165,6 +168,7 @@
                     /*Do nothing*/
                 }
             }
+
         }
         let timer = setInterval(checkOpen, 3000);
 
@@ -254,6 +258,30 @@
             $("[title=OK] svg").attr("fill", "green");
             $("[title=Cover]:last svg").attr("fill", "yellow");
             $("[title=Pointer]").remove();
+
+            // making compatible with Safari
+            let tempAlt = $(".d-editor-preview img")[0].alt;
+            let tempWidth = [];
+            let tempHeight = [];
+            let tempClass = $(".resizable").attr("class");
+            $(".image-anotator-area").attr("crossorigin", "anonymous");
+            let tempSrcs = [];
+            for (let i = 0; i < $(".d-editor-preview img").length; i++) {
+                tempSrcs[i] = $(".d-editor-preview img")[i].src;
+                tempWidth[i] = $(".d-editor-preview img")[i].width;
+                tempHeight[i] = $(".d-editor-preview img")[i].height;
+            }
+            $(".resizable").removeAttr("src");
+            $(".resizable").removeAttr("alt");
+            $(".resizable").removeAttr("width");
+            $(".resizable").removeAttr("height");
+            for (let i = 0; i < $(".d-editor-preview img").length; i++) {
+                $(".d-editor-preview img")[i].src = tempSrcs[i];
+                $(".d-editor-preview img")[i].width = tempWidth[i];
+                $(".d-editor-preview img")[i].height = tempHeight[i];
+            }
+            $("img.resizable").attr("alt", tempAlt);
+
         });
     });
 </script>
