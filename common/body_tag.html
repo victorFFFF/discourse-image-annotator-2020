@@ -56,7 +56,6 @@
                 dif += cur - string.length;
             }
         }
-
         return result;
     }
 
@@ -77,44 +76,33 @@
         let afterBegin = findAllIndexes($editor, options2);
         let endpoints = findAllIndexes($editor, options3);
 
+        //Remove extra ')'
+        if (images.length != endpoints.length) {
+            let i = 0;
+            let index;
+
+            while (images.length != endpoints.length && i < images.length) {
+                if (begin[i] > endpoints[i]) {
+                    index = endpoints.indexOf(endpoints[i]);
+                    endpoints.splice(index, 1);
+                } else i++;
+            }
+        }
+
+        //Remove extra ')['
+        if (images.length != afterBegin.length) {
+            let i = 0;
+            let index;
+            while (images.length != afterBegin.length && i < images.length) {
+                if (begin[i] > afterBegin[i]) {
+                    index = afterBegin.indexOf(afterBegin[i]);
+                    afterBegin.splice(index, 1);
+                } else i++;
+            }
+        }
+
         //Exec after marker's toolbar checkmark is clicked
         mark.show((dataUrl) => {
-            //Remove extra ')' in the front
-            if (images.length != endpoints.length) {
-                let i = 0;
-                let index;
-
-                while (images.length != endpoints.length && i < images.length) {
-                    if (begin[i] > endpoints[i]) {
-                        index = endpoints.indexOf(endpoints[i]);
-                        endpoints.splice(index, 1);
-                    } else i++;
-                }
-                //Remove the remaining ')' in the back
-                if (i + 1 != images.length) {
-                    endpoints.splice(i, endpoints.length);
-                }
-            }
-
-            //Remove extra )[
-            if (images.length != afterBegin.length) {
-                let i = 0;
-                let index;
-                while (
-                    images.length != afterBegin.length &&
-                    i < images.length
-                ) {
-                    if (begin[i] > afterBegin[i]) {
-                        index = afterBegin.indexOf(afterBegin[i]);
-                        afterBegin.splice(index, 1);
-                    } else i++;
-                }
-                //Remove the remaining ')[' in the back
-                if (i + 1 != images.length) {
-                    afterBegin.splice(i, afterBegin.length);
-                }
-            }
-
             // generating image src into blob
             let base64code = dataUrl;
             base64code = base64code.split(",").pop();
@@ -276,29 +264,6 @@
             $("[title=OK] svg").attr("fill", "green");
             $("[title=Cover]:last svg").attr("fill", "yellow");
             $("[title=Pointer]").remove();
-
-            // making compatible with Safari
-            let tempAlt = $(".d-editor-preview img")[0].alt;
-            let tempWidth = [];
-            let tempHeight = [];
-            let tempClass = $(".resizable").attr("class");
-            $(".image-anotator-area").attr("crossorigin", "anonymous");
-            let tempSrcs = [];
-            for (let i = 0; i < $(".d-editor-preview img").length; i++) {
-                tempSrcs[i] = $(".d-editor-preview img")[i].src;
-                tempWidth[i] = $(".d-editor-preview img")[i].width;
-                tempHeight[i] = $(".d-editor-preview img")[i].height;
-            }
-            $(".resizable").removeAttr("src");
-            $(".resizable").removeAttr("alt");
-            $(".resizable").removeAttr("width");
-            $(".resizable").removeAttr("height");
-            for (let i = 0; i < $(".d-editor-preview img").length; i++) {
-                $(".d-editor-preview img")[i].src = tempSrcs[i];
-                $(".d-editor-preview img")[i].width = tempWidth[i];
-                $(".d-editor-preview img")[i].height = tempHeight[i];
-            }
-            $("img.resizable").attr("alt", tempAlt);
         });
     });
 </script>
