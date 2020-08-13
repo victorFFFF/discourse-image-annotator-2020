@@ -79,18 +79,39 @@
 
         //Exec after marker's toolbar checkmark is clicked
         mark.show((dataUrl) => {
-            //Remove extra )
-            if (afterBegin.length != endpoints.length) {
+            //Remove extra ')' in the front
+            if (images.length != endpoints.length) {
                 let i = 0;
                 let index;
-                while (
-                    afterBegin.length != endpoints.length &&
-                    i < afterBegin.length
-                ) {
-                    if (afterBegin[i] > endpoints[i]) {
+
+                while (images.length != endpoints.length && i < images.length) {
+                    if (begin[i] > endpoints[i]) {
                         index = endpoints.indexOf(endpoints[i]);
                         endpoints.splice(index, 1);
                     } else i++;
+                }
+                //Remove the remaining ')' in the back
+                if (i + 1 != images.length) {
+                    endpoints.splice(i, endpoints.length);
+                }
+            }
+
+            //Remove extra )[
+            if (images.length != afterBegin.length) {
+                let i = 0;
+                let index;
+                while (
+                    images.length != afterBegin.length &&
+                    i < images.length
+                ) {
+                    if (begin[i] > afterBegin[i]) {
+                        index = afterBegin.indexOf(afterBegin[i]);
+                        afterBegin.splice(index, 1);
+                    } else i++;
+                }
+                //Remove the remaining ')[' in the back
+                if (i + 1 != images.length) {
+                    afterBegin.splice(i, afterBegin.length);
                 }
             }
 
