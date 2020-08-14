@@ -96,7 +96,7 @@
         }
         //Exec after marker's toolbar checkmark is clicked
         mark.show((dataUrl) => {
-            //
+            //Check if user annotate after clicking save button on markerjs
             if (mark.getState().markers.length > 0) {
                 // generating image src into blob
                 let base64code = dataUrl;
@@ -133,6 +133,7 @@
                         let newText;
                         for (let i = 0; i < images.length; i++) {
                             if (images[i] === img) {
+                                // Get the old image string to be replaced in composer
                                 str = $editor.substring(
                                     afterBegin[i] + 2,
                                     endpoints[i]
