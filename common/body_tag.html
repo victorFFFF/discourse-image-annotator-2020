@@ -98,7 +98,6 @@
         mark.show((dataUrl) => {
             //
             if (mark.getState().markers.length > 0) {
-                $editorVal.val("Uploading image ...");
                 // generating image src into blob
                 let base64code = dataUrl;
                 base64code = base64code.split(",").pop();
