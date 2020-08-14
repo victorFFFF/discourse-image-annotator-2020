@@ -60,9 +60,9 @@
 
     function showMarkerJs(img, config) {
         mark = new markerjs.MarkerArea(img, { previousState: config });
-        var $editor = $("#reply-control textarea.d-editor-input").first()[0]
+        let $editor = $("#reply-control textarea.d-editor-input").first()[0]
             .value;
-        var $editorVal = $("#reply-control textarea.d-editor-input");
+        let $editorVal = $("#reply-control textarea.d-editor-input");
         let images = $(".d-editor-preview img");
         let options1 = ["!["];
         let options2 = ["]("];
@@ -127,9 +127,9 @@
                 .then((response) => response.json())
                 .then((upload) => {
                     //Get the new url
-                    var newImgUrl = upload.short_url;
-                    var str;
-                    var newText;
+                    let newImgUrl = upload.short_url;
+                    let str;
+                    let newText;
                     for (let i = 0; i < images.length; i++) {
                         if (images[i] === img) {
                             //Replace composer with uploading message and image with gif place holder
