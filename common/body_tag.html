@@ -53,13 +53,27 @@
         }
         return result;
     }
-
+    //decorate toolbar
     function toolbarColor() {
         $("[title=Close] svg").attr("fill", "red");
         $("[title=Delete] svg").attr("fill", "	darkred");
         $("[title=OK] svg").attr("fill", "green");
         $("[title=Cover]:last svg").attr("fill", "yellow");
         $("[title=Pointer]").remove();
+    }
+
+    //Remove extra string such as ")" and "]("
+    function filterString(begin, target, images) {
+        if (images.length != target.length) {
+            let i = 0;
+            let index;
+            while (images.length != target.length && i < images.length) {
+                if (begin[i] > target[i]) {
+                    index = target.indexOf(target[i]);
+                    target.splice(index, 1);
+                } else i++;
+            }
+        }
     }
 
     //Display markerjs when image is clicked
@@ -77,28 +91,10 @@
         let oldImgUrl;
 
         //Remove extra ')' that are not part of images
-        if (images.length != endpoints.length) {
-            let i = 0;
-            let index;
-            while (images.length != endpoints.length && i < images.length) {
-                if (begin[i] > endpoints[i]) {
-                    index = endpoints.indexOf(endpoints[i]);
-                    endpoints.splice(index, 1);
-                } else i++;
-            }
-        }
-
+        filterString(begin, endpoints, images);
         //Remove extra ')[' that are not part of images
-        if (images.length != afterBegin.length) {
-            let i = 0;
-            let index;
-            while (images.length != afterBegin.length && i < images.length) {
-                if (begin[i] > afterBegin[i]) {
-                    index = afterBegin.indexOf(afterBegin[i]);
-                    afterBegin.splice(index, 1);
-                } else i++;
-            }
-        }
+        filterString(begin, afterBegin, images);
+
         //finds the old image url to be replaced in composer
         for (let i = 0; i < images.length; i++) {
             if (images[i] === img) {
