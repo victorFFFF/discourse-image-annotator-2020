@@ -60,8 +60,8 @@
 
     function showMarkerJs(img, config) {
         mark = new markerjs.MarkerArea(img, { previousState: config });
-        let $editor = $("#reply-control textarea.d-editor-input").first()[0];
-        value;
+        let $editor = $("#reply-control textarea.d-editor-input").first()[0]
+            .value;
         let images = $(".d-editor-preview img");
         let begin = findAllIndexes($editor, "![");
         let afterBegin = findAllIndexes($editor, "](");
