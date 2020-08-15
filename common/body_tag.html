@@ -92,14 +92,11 @@
         }
         //Exec after marker's toolbar checkmark is clicked
         mark.show((dataUrl) => {
-            //Check if user annotate after clicking save button on markerjs
+            //Check if user made any annotation after clicking save button on markerjs
             if (mark.getState().markers.length > 0) {
-                // generating image src into blob
-                let base64code = dataUrl;
-                base64code = base64code.split(",").pop();
-
-                const src = base64code;
-                const byteChar = atob(src);
+                // generating dataurl into blob
+                dataUrl = dataUrl.split(",").pop();
+                const byteChar = atob(dataUrl);
                 const byteNum = new Array(byteChar.length);
 
                 for (let i = 0; i < byteChar.length; i++) {
@@ -126,7 +123,6 @@
                         //Get the new url
                         let newImgUrl = upload.short_url;
                         let oldImgUrl;
-                        let newText;
                         for (let i = 0; i < images.length; i++) {
                             if (images[i] === img) {
                                 // finds the old image string to be replaced in composer
