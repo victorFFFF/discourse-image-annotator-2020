@@ -231,16 +231,17 @@
             $("#reply-control").css("height", "80%");
 
             // making compatible with Safari
-            let tempAlt = $(".d-editor-preview img")[0].alt;
+            let tempAlt = [];
             let tempWidth = [];
             let tempHeight = [];
+            let tempSrcs = [];
             let tempClass = $(".resizable").attr("class");
             $(".image-anotator-area").attr("crossorigin", "anonymous");
-            let tempSrcs = [];
             for (let i = 0; i < $(".d-editor-preview img").length; i++) {
                 tempSrcs[i] = $(".d-editor-preview img")[i].src;
                 tempWidth[i] = $(".d-editor-preview img")[i].width;
                 tempHeight[i] = $(".d-editor-preview img")[i].height;
+                tempAlt[i] = $(".d-editor-preview img")[i].alt;
             }
             $(".resizable").removeAttr("src");
             $(".resizable").removeAttr("alt");
@@ -250,8 +251,8 @@
                 $(".d-editor-preview img")[i].src = tempSrcs[i];
                 $(".d-editor-preview img")[i].width = tempWidth[i];
                 $(".d-editor-preview img")[i].height = tempHeight[i];
+                $(".d-editor-preview img")[i].alt = tempAlt[i];
             }
-            $("img.resizable").attr("alt", tempAlt);
             mobileSize();
         });
     });
