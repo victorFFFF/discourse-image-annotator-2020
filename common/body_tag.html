@@ -70,10 +70,10 @@
 
     // Check if mobile is used & resize if so
     function mobileSize() {
-        // if (/Mobi/.test(navigator.userAgent)) {
-        //     $(".d-editor-preview-wrapper").css("top", "10%");
-        //     $(".markerjs-toolbar").css("margin-left", "13%");
-        // }
+        if (/Mobi/.test(navigator.userAgent)) {
+            $(".d-editor-preview-wrapper").css("top", "10%");
+            $(".markerjs-toolbar").css("margin-left", "13%");
+        }
     }
 
     //Display markerjs when image is clicked
