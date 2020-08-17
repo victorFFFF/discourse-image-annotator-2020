@@ -77,11 +77,8 @@
     }
 
     //Display markerjs when image is clicked
-    let mark;
-    let previousState;
-
     function showMarkerJs(img, config) {
-        mark = new markerjs.MarkerArea(img, { previousState: config });
+        let mark = new markerjs.MarkerArea(img, { previousState: config });
         let $editor = $("#reply-control textarea.d-editor-input").first()[0]
             .value;
         let images = $(".d-editor-preview img");
