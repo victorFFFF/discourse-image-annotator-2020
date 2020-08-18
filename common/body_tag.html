@@ -103,7 +103,9 @@
             }
         }
     }
+
     let timer;
+    let timer2;
     //Display markerjs when image is clicked
     function showMarkerJs(img, config) {
         let mark = new markerjs.MarkerArea(img, { previousState: config });
@@ -204,7 +206,6 @@
         return newObj;
     }
 
-    let timer2;
     //Exec when image is clicked
     $("body").on("click", ".d-editor-preview img", function () {
         //Center image when clicked
