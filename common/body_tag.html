@@ -103,6 +103,7 @@
             }
         }
     }
+    let timer;
     //Display markerjs when image is clicked
     function showMarkerJs(img, config) {
         let mark = new markerjs.MarkerArea(img, { previousState: config });
@@ -114,6 +115,19 @@
         let endpoints = findAllIndexes($editor, ")");
         let oldImgUrl;
 
+        //Clear previous timers
+        clearInterval(timer);
+        //Makes sure markerjs toolbar is closed after preview topic is closed.
+        timer = setInterval(function () {
+            if ($(img).is(":hidden")) {
+                try {
+                    clearInterval(timer);
+                    mark.close();
+                } catch (e) {
+                    /*Do nothing*/
+                }
+            }
+        }, 3000);
         //Remove extra ')' that are not part of images
         filterString(begin, endpoints, images);
         //Remove extra ')[' that are not part of images
@@ -170,18 +184,6 @@
             }
         });
 
-        //Makes sure markerjs toolbar is closed after preview topic is closed.
-        let timer = setInterval(function () {
-            if (!$(img).is(":visible")) {
-                try {
-                    clearInterval(timer);
-                    mark.close();
-                } catch (e) {
-                    /*Do nothing*/
-                }
-            }
-        }, 3000);
-
         newObj = {
             img,
             previousState: mark.getState(),
@@ -202,6 +204,7 @@
         return newObj;
     }
 
+    let timer2;
     //Exec when image is clicked
     $("body").on("click", ".d-editor-preview img", function () {
         //Center image when clicked
@@ -238,11 +241,14 @@
             }
         };
 
+        //Clear previous timers
+        clearInterval(timer2);
+
         //Enable composer scroll if toolbar is closed
-        let timer = setInterval(function () {
+        timer2 = setInterval(function () {
             if (!$(".markerjs-toolbar").is(":visible")) {
                 $(".d-editor-preview-wrapper ").css("overflow", "auto");
-                clearInterval(timer);
+                clearInterval(timer2);
             }
         }, 700);
 
