@@ -24,11 +24,16 @@
     }
 
     //Remove the duplicate markerjs
-    function closeMarker() {
+    function removeDuplicates() {
         try {
-            theMarker.mark.close();
+            let toolbar = document.querySelector(".markerjs-toolbar");
+            toolbar.parentNode.removeChild(toolbar);
+            let display = document.querySelector(".image-anotator-area");
+            display.parentNode.removeChild(display);
+            let logo = document.querySelector(".markerjs-logo");
+            logo.parentNode.removeChild(logo);
         } catch (e) {
-            /*Do nothing*/
+            /* Do nothing*/
         }
     }
 
@@ -50,26 +55,15 @@
     }
 
     //Remove extra string such as ")" and "]("
-    function filterString(begin, target, imagesArray) {
-        if (imagesArray.length != target.length) {
+    function filterString(begin, target, images) {
+        if (images.length != target.length) {
             let i = 0;
             let index;
-            while (
-                imagesArray.length != target.length &&
-                i < imagesArray.length
-            ) {
+            while (images.length != target.length && i < images.length) {
                 if (begin[i] > target[i]) {
                     index = target.indexOf(target[i]);
                     target.splice(index, 1);
                 } else i++;
-            }
-        }
-    }
-
-    function findImageIndex(target, imagesArray) {
-        for (let i = 0; i < imagesArray.length; i++) {
-            if (imagesArray[i].src == target.src) {
-                return i;
             }
         }
     }
@@ -111,6 +105,7 @@
     }
 
     let timer;
+    let timer2;
     //Display markerjs when image is clicked
     function showMarkerJs(img, config) {
         //Hide composer scrolling temporarily
@@ -118,35 +113,37 @@
         let mark = new markerjs.MarkerArea(img, { previousState: config });
         let $editor = $("#reply-control textarea.d-editor-input").first()[0]
             .value;
-        let imagesArray = $(".d-editor-preview img");
+        let images = $(".d-editor-preview img");
         let begin = findAllIndexes($editor, "![");
         let afterBegin = findAllIndexes($editor, "](");
         let endpoints = findAllIndexes($editor, ")");
         let oldImgUrl;
-        let imageIndex;
 
         //Clear previous timers
         clearInterval(timer);
         //Makes sure markerjs toolbar is closed after preview topic is closed.
         timer = setInterval(function () {
-            imagesArray = document.querySelectorAll(".resizable");
-            imageIndex = findImageIndex(img, imagesArray);
-            if (imageIndex === undefined) {
-                clearInterval(timer);
-                closeMarker();
+            if ($(img).is(":hidden")) {
+                try {
+                    clearInterval(timer);
+                    mark.close();
+                } catch (e) {
+                    /*Do nothing*/
+                }
             }
         }, 3000);
         //Remove extra ')' that are not part of images
-        filterString(begin, endpoints, imagesArray);
+        filterString(begin, endpoints, images);
         //Remove extra ')[' that are not part of images
-        filterString(begin, afterBegin, imagesArray);
+        filterString(begin, afterBegin, images);
 
-        imageIndex = findImageIndex(img, imagesArray);
-        oldImgUrl = $editor.substring(
-            afterBegin[imageIndex] + 2,
-            endpoints[imageIndex]
-        );
-
+        //finds the old image url to be replaced in composer
+        for (let i = 0; i < images.length; i++) {
+            if (images[i] === img) {
+                oldImgUrl = $editor.substring(afterBegin[i] + 2, endpoints[i]);
+                break;
+            }
+        }
         //Exec after marker's toolbar checkmark is clicked
         mark.show((dataUrl) => {
             //Check if user made any annotation after clicking save button on markerjs
@@ -208,9 +205,6 @@
         return newObj;
     }
 
-    let theMarker;
-    let timer2;
-    let once;
     //Exec when image is clicked
     $("body").on("click", ".d-editor-preview img", function () {
         //Center image when clicked
@@ -219,13 +213,14 @@
             block: "center",
             inline: "center",
         });
-        closeMarker();
-        theMarker = showMarkerJs(this);
+
+        removeDuplicates();
+        let theMarker = showMarkerJs(this);
 
         // Watch for composer height changes
         $("#reply-control").resize(function () {
             try {
-                closeMarker();
+                theMarker.mark.close();
                 theMarker = showMarkerJs(
                     theMarker.img,
                     theMarker.previousState
@@ -239,7 +234,11 @@
 
         //Closes markerjs when page is scrolling
         window.onscroll = function (e) {
-            closeMarker();
+            try {
+                theMarker.mark.close();
+            } catch (e) {
+                /*Do nothing*/
+            }
         };
 
         //Clear previous timers
@@ -251,7 +250,7 @@
                 $(".d-editor-preview-wrapper ").css("overflow", "auto");
                 clearInterval(timer2);
             }
-        }, 1300);
+        }, 700);
 
         $(document).ready(function () {
             $(".markerjs-logo").prev().addClass("image-anotator-area");
@@ -261,32 +260,5 @@
             isSafari();
             mobileSize();
         });
-    });
-
-    //Reopen markerjs on the selected image if user types in composer textarea while having markerjs open
-    $("body, textarea").keyup(function (e) {
-        let code = e.keyCode || e.which;
-        if ($(".markerjs-toolbar").is(":visible")) {
-            // Exec if it's not any arrow key
-            if (code != 37 && code != 38 && code != 39 && code != 40) {
-                try {
-                    closeMarker();
-                    imagesArray = $(".d-editor-preview img");
-                    imageIndex = findImageIndex(theMarker.img, imagesArray);
-                    img = document.querySelectorAll(".resizable")[imageIndex];
-                    theMarker = showMarkerJs(img, theMarker.previousState);
-                    $(document).ready(function () {
-                        $(".resizable").attr("crossorigin", "anonymous");
-                        $(".markerjs-logo")
-                            .prev()
-                            .addClass("image-anotator-area");
-                        isSafari();
-                        mobileSize();
-                    });
-                } catch (e) {
-                    /*Do nothing*/
-                }
-            }
-        }
     });
 </script>
