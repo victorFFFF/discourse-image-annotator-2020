@@ -55,15 +55,26 @@
     }
 
     //Remove extra string such as ")" and "]("
-    function filterString(begin, target, images) {
-        if (images.length != target.length) {
+    function filterString(begin, target, imagesArray) {
+        if (imagesArray.length != target.length) {
             let i = 0;
             let index;
-            while (images.length != target.length && i < images.length) {
+            while (
+                imagesArray.length != target.length &&
+                i < imagesArray.length
+            ) {
                 if (begin[i] > target[i]) {
                     index = target.indexOf(target[i]);
                     target.splice(index, 1);
                 } else i++;
+            }
+        }
+    }
+
+    function findImageIndex(target, imagesArray) {
+        for (let i = 0; i < imagesArray.length; i++) {
+            if (imagesArray[i].src == target.src) {
+                return i;
             }
         }
     }
@@ -113,17 +124,21 @@
         let mark = new markerjs.MarkerArea(img, { previousState: config });
         let $editor = $("#reply-control textarea.d-editor-input").first()[0]
             .value;
-        let images = $(".d-editor-preview img");
+        let imagesArray = $(".d-editor-preview img");
         let begin = findAllIndexes($editor, "![");
         let afterBegin = findAllIndexes($editor, "](");
         let endpoints = findAllIndexes($editor, ")");
         let oldImgUrl;
+        let imageIndex;
 
         //Clear previous timers
         clearInterval(timer);
         //Makes sure markerjs toolbar is closed after preview topic is closed.
         timer = setInterval(function () {
-            if ($(img).is(":hidden")) {
+            imagesArray = document.querySelectorAll(".resizable");
+            imageIndex = findImageIndex(img, imagesArray);
+            console.log(imageIndex);
+            if (imageIndex === undefined) {
                 try {
                     clearInterval(timer);
                     mark.close();
@@ -133,17 +148,16 @@
             }
         }, 3000);
         //Remove extra ')' that are not part of images
-        filterString(begin, endpoints, images);
+        filterString(begin, endpoints, imagesArray);
         //Remove extra ')[' that are not part of images
-        filterString(begin, afterBegin, images);
+        filterString(begin, afterBegin, imagesArray);
 
-        //finds the old image url to be replaced in composer
-        for (let i = 0; i < images.length; i++) {
-            if (images[i] === img) {
-                oldImgUrl = $editor.substring(afterBegin[i] + 2, endpoints[i]);
-                break;
-            }
-        }
+        imageIndex = findImageIndex(img, imagesArray);
+        oldImgUrl = $editor.substring(
+            afterBegin[imageIndex] + 2,
+            endpoints[imageIndex]
+        );
+
         //Exec after marker's toolbar checkmark is clicked
         mark.show((dataUrl) => {
             //Check if user made any annotation after clicking save button on markerjs
@@ -246,6 +260,7 @@
 
         //Enable composer scroll if toolbar is closed
         timer2 = setInterval(function () {
+            console.log("scroll");
             if (!$(".markerjs-toolbar").is(":visible")) {
                 $(".d-editor-preview-wrapper ").css("overflow", "auto");
                 clearInterval(timer2);
